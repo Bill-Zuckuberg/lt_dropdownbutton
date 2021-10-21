@@ -24,8 +24,8 @@ class DropdownButtonController extends StatefulWidget {
 
 class _DropdownButtonState extends State<DropdownButtonController> {
   static const menuItem = <String>["One", "Two", "Three", "Four"];
-  final String _btn1SelectedVal = "One";
-  // final String? _btn2SelectedVal;
+  String _btn1SelectedVal = "One";
+  String? _btn2SelectedVal;
   // late String _btn3SelectedVal;
 
   final List<DropdownMenuItem<String>> _dropDownMenuItems = menuItem
@@ -41,15 +41,35 @@ class _DropdownButtonState extends State<DropdownButtonController> {
         body: ListView(
       children: <Widget>[
         ListTile(
-          title: const Text("DropDownButton with default: One"),
+          title: const Text("DropDownButton with default: "),
           trailing: DropdownButton<String>(
             items: _dropDownMenuItems,
             value: _btn1SelectedVal,
             onChanged: (String? newVal) {
-              if (newVal != null) {}
+              if (newVal != null) {
+                setState(() {
+                  _btn1SelectedVal = newVal;
+                });
+              }
             },
           ),
-        )
+        ),
+        const Divider(),
+        ListTile(
+          title: const Text("DropDownButton with hint: "),
+          trailing: DropdownButton(
+            items: _dropDownMenuItems,
+            value: _btn2SelectedVal,
+            hint: const Text("Choose"),
+            onChanged: (String? newVal) {
+              if (newVal != null) {
+                setState(() {
+                  _btn2SelectedVal = newVal;
+                });
+              }
+            },
+          ),
+        ),
       ],
     ));
   }
