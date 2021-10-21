@@ -23,15 +23,22 @@ class DropdownButtonController extends StatefulWidget {
 }
 
 class _DropdownButtonState extends State<DropdownButtonController> {
-  static const menuItem = <String>["One", "Two", "Three", "Four"];
+  static const menuItems = <String>["One", "Two", "Three", "Four"];
   String _btn1SelectedVal = "One";
   String? _btn2SelectedVal;
-  // late String _btn3SelectedVal;
+  late String _btn3SelectedVal;
 
-  final List<DropdownMenuItem<String>> _dropDownMenuItems = menuItem
+  final List<DropdownMenuItem<String>> _dropDownMenuItems = menuItems
       .map((e) => DropdownMenuItem<String>(
             child: Text(e),
             value: e,
+          ))
+      .toList();
+
+  final List<PopupMenuItem<String>> _popUpMenuItems = menuItems
+      .map((val) => PopupMenuItem<String>(
+            value: val,
+            child: Text(val),
           ))
       .toList();
 
@@ -70,6 +77,18 @@ class _DropdownButtonState extends State<DropdownButtonController> {
             },
           ),
         ),
+        const Divider(),
+        ListTile(
+          title: const Text("Popup menu button"),
+          trailing: PopupMenuButton<String>(
+            itemBuilder: (BuildContext context) => _popUpMenuItems,
+            onSelected: (String newVal) {
+              _btn3SelectedVal = newVal;
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text(_btn3SelectedVal)));
+            },
+          ),
+        )
       ],
     ));
   }
